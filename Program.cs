@@ -109,7 +109,7 @@ class Program
         if (r != null)
         {
             redis.HSET("_OCR_REQUEST", r.requestId, JsonConvert.SerializeObject(r, Formatting.Indented));
-            redis.HSET("_OCR_REQ_LOG", r.requestId, r.ok.ToString());
+            redis.HSET("_OCR_REQ_LOG", r.requestId, r.ok == -1 ? "-1" : r.output_count.ToString());
             redis.PUBLISH("__TESSERACT_OUT", r.requestId);
         }
     }
@@ -118,7 +118,6 @@ class Program
     {
         m_subcriber = new RedisBase(new RedisSetting(REDIS_TYPE.ONLY_SUBCRIBE, __PORT_READ));
         m_subcriber.PSUBSCRIBE("__TESSERACT_IN");
-
         var bs = new List<byte>();
         while (__running)
         {
@@ -128,18 +127,15 @@ class Program
                 {
                     var buf = m_subcriber.__getBodyPublish("__TESSERACT_IN", bs.ToArray());
                     bs.Clear();
-                    new Thread(new ParameterizedThreadStart((o)
-                        => __executeBackground((byte[])o))).Start(buf);
+                    new Thread(new ParameterizedThreadStart((o) => __executeBackground((byte[])o))).Start(buf);
                 }
                 Thread.Sleep(100);
                 continue;
             }
-
             byte b = (byte)m_subcriber.m_stream.ReadByte();
             bs.Add(b);
         }
     }
-
     static void __stopApp() => __running = false;
 
     #region [ SETUP WINDOWS SERVICE ]
