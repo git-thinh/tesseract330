@@ -12,8 +12,8 @@ using Newtonsoft.Json;
 
 class Program
 {
-    static int __PORT_WRITE = 1000;
-    static int __PORT_READ = 1001;
+    const int __PORT_WRITE = 1000;
+    const int __PORT_READ = 1001;
     static RedisBase m_subcriber;
     static bool __running = true;
 
@@ -86,7 +86,7 @@ class Program
     {
         oTesseractRequest r = null;
         string guid = Encoding.ASCII.GetString(buf);
-        var redis = new RedisBase(new RedisSetting(REDIS_TYPE.ONLY_READ, 1000));
+        var redis = new RedisBase(new RedisSetting(REDIS_TYPE.ONLY_READ, __PORT_WRITE));
         try
         {
             string json = redis.HGET("_OCR_REQUEST", guid);
@@ -116,7 +116,7 @@ class Program
 
     static void __startApp()
     {
-        m_subcriber = new RedisBase(new RedisSetting(REDIS_TYPE.ONLY_SUBCRIBE, 1001));
+        m_subcriber = new RedisBase(new RedisSetting(REDIS_TYPE.ONLY_SUBCRIBE, __PORT_READ));
         m_subcriber.PSUBSCRIBE("__TESSERACT_IN");
 
         var bs = new List<byte>();
