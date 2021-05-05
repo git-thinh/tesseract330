@@ -64,11 +64,14 @@
     <Compile Include="..\_shared\redisbasic\ResponseException.cs">
       <Link>_Shared\RedisBasic\ResponseException.cs</Link>
     </Compile>
-    <Compile Include="..\_shared\_document\oTesseractModel.cs">
-      <Link>_Shared\_Document\oTesseractModel.cs</Link>
+    <Compile Include="..\_Shared\_Document\StaticDocument.cs">
+      <Link>_Shared\_Document\StaticDocument.cs</Link>
     </Compile>
-    <Compile Include="..\_shared\_static_this.cs">
-      <Link>_Shared\_static_this.cs</Link>
+    <Compile Include="..\_Shared\_Document\TesseractModel.cs">
+      <Link>_Shared\_Document\TesseractModel.cs</Link>
+    </Compile>
+    <Compile Include="..\_Shared\__tuple_this.cs">
+      <Link>_Shared\__tuple_this.cs</Link>
     </Compile>
     <Compile Include="MyService.cs">
       <SubType>Component</SubType>
